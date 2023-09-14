@@ -1,43 +1,4 @@
-.btn
-{
-appearance: auto;
-font-style: ;
-font-variant-ligatures: ;
-font-variant-caps: ;
-font-variant-numeric: ;
-font-variant-east-asian: ;
-font-variant-alternates: ;
-font-weight: ;
-font-stretch: ;
-font-size: ;
-font-family: ;
-font-optical-sizing: ;
-font-kerning: ;
-font-feature-settings: ;
-font-variation-settings: ;
-text-rendering: auto;
-color: buttontext;
-letter-spacing: normal;
-word-spacing: normal;
-line-height: normal;
-text-transform: none;
-text-indent: 0px;
-text-shadow: none;
-display: inline-block;
-text-align: center;
-align-items: flex-start;
-cursor: default;
-box-sizing: border-box;
-background-color: buttonface;
-writing-mode: horizontal-tb !important;
-margin: 0em;
-padding-block: 1px;
-padding-inline: 6px;
-border-width: 2px;
-border-style: outset;
-border-color: buttonborder;
-border-image: initial;
-}
+
     .top
     {
         border: solid 2px red;
