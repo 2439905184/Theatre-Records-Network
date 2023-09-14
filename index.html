@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <script src="toggleButton.js"></script>
+        <link rel="stylesheet" href="index.css">
+        <script>
+            // 电视剧
+            // var tv_list = {"":""}
+            // localStorage.setItem("tv_list",JSON.stringify(tv_list))
+            // function toggle(button)
+            // {
+            //     var is_toggled = false
+            //     is_toggled = !is_toggled
+            //     if(is_toggled)
+            //     {
+            //         button.style = "background-color:blue"
+            //     }
+            //     else
+            //     {
+            //         button.style = ""
+            //     }
+            // }
+        </script>
+    </head>
+    <body>
+        <!-- 仿bangumi -->
+        <h2 class="title">追剧记录网</h2>
+        <img alt="头像"/>
+        <button>登录</button>
+        <button>注册</button>
+        <!-- <input type="text"><button>搜索</button> -->
+        <br/>
+        <hr/>
+        <input type="text" id="tv_name" placeholder="请输入电视剧名字">
+        <input type="number" id="tv_number" placeholder="请输入总集数">
+        <button onclick="add_tv()">添加</button>
+        <div class="wrapper">
+            <div class="tv_list">
+                <ul id="side_bar">
+                </ul>
+            </div>
+            <div id="tv_content">
+                <h2 id="dsj"></h2>
+                
+            </div>
+        </div>
+        <hr/>
+        <a href="about">关于</a>
+        <h2>关于追剧记录网</h2>
+        <div class="top">
+            <h2>追剧记录网</h2>
+            <p>追剧记录网是由小沙盒发起的追剧记录项目</p>
+        </div>
+        <script>
+            var tv_content = document.getElementById("tv_content")
+            var tv_progress = document.getElementById("tv_progress")
+
+            var current_progress = 0
+            // 记录进度的类 组件
+            function progressRecorder()
+            {
+                this.current_progress = 0
+            }
+        function add_tv()
+        {
+            // var item = {"":""}
+            var side_bar = document.getElementById("side_bar")
+            var tv_name = document.getElementById("tv_name").value
+            var tv_number = document.getElementById("tv_number").value
+            var li = document.createElement("li")
+            var small = document.createElement("small")
+            small.className = "progress"
+            small.innerText = '[0/' + tv_number +']'
+            li.innerText = tv_name
+            li.addEventListener("mousedown",show_info)
+            li.append(small)
+            side_bar.append(li)
+        }
+        function show_info(ev,p1)
+        {
+            var tv_name = this.innerText.split("[")[0]
+            // 总集数
+            var all_number = this.innerText.split("/")[1].split("]")[0]
+            console.log(all_number)
+            document.getElementById("dsj").innerText = tv_name
+            for(var i=0; i<all_number;i++)
+            {
+                var toggle_button_instance = new ToggleButton()
+                toggle_button_instance.className = "btn"
+                toggle_button_instance.innerText = i
+                tv_content.append(toggle_button_instance)
+            }
+            var prog = document.createElement("progress")
+            prog.id = "tv_progress"
+            prog.value = 0
+            prog.max = all_number
+            tv_content.append(prog)
+        }
+        </script>
+    </body>
+</html>
