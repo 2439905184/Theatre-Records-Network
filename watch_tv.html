@@ -1,0 +1,63 @@
+<!-- 追剧信息显示组件 -->
+<!-- 测试 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="toggleButton.css">
+    <script src="toggleButton.js"></script>
+</head>
+<body>
+
+    <div id="app"></div>
+
+    <script>
+
+// p_all_number 总集数
+function TVInfoComponent(p_title,p_all_number) 
+{
+  var container = document.createElement("div");
+
+  var title = document.createElement("h2");
+  title.innerText = p_title;
+  container.appendChild(title);
+
+  for(var i=1;i<p_all_number+1;i++)
+  {
+    var toggleButton = new ToggleButton()
+    toggleButton.className = "btn";
+    toggleButton.innerText = i
+    container.appendChild(toggleButton);
+
+    toggleButton.addEventListener("click",function()
+  {
+    if(this.isToggled)
+    {
+        progress.value +=1
+    }
+    else
+    {
+        progress.value -=1
+    }
+    
+  })
+  }
+
+  var progress = document.createElement("progress");
+  progress.value = 0;
+  progress.max = p_all_number
+  container.appendChild(progress);
+
+
+  return container;
+}
+
+var app = document.getElementById("app");
+app.appendChild(new TVInfoComponent("测试电视剧",25));
+app.appendChild(new TVInfoComponent("测试电视剧2",2));
+    </script>
+</body>
+</html>
