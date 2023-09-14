@@ -5,24 +5,6 @@
         <script src="toggleButton.js"></script>
         <link rel="stylesheet" href="index.css">
         <link rel="stylesheet" href="toggleButton.css">
-        <script>
-            // 电视剧
-            // var tv_list = {"":""}
-            // localStorage.setItem("tv_list",JSON.stringify(tv_list))
-            // function toggle(button)
-            // {
-            //     var is_toggled = false
-            //     is_toggled = !is_toggled
-            //     if(is_toggled)
-            //     {
-            //         button.style = "background-color:blue"
-            //     }
-            //     else
-            //     {
-            //         button.style = ""
-            //     }
-            // }
-        </script>
     </head>
     <body>
         <!-- 仿bangumi -->
@@ -36,6 +18,7 @@
         <input type="text" id="tv_name" placeholder="请输入电视剧名字">
         <input type="number" id="tv_number" placeholder="请输入总集数">
         <button onclick="add_tv()">添加</button>
+        <button onclick="save()">保存追剧数据</button>
         <div class="wrapper">
             <div class="tv_list">
                 <ul id="side_bar">
@@ -56,33 +39,50 @@
             var tv_content = document.getElementById("tv_content")
             var tv_progress = document.getElementById("tv_progress")
 
+            var data = {}
+
+            var json_data = JSON.parse(localStorage.getItem("data"))
+            console.log(json_data);
             //组件
-            function TVInfoComponent(p_title,p_all_number) 
+function TVInfoComponent(p_title,p_all_number) 
 {
+    this.set_progress = function(p_value)
+    {
+        progress.value = p_value
+    }
   var container = document.createElement("div");
 
   var title = document.createElement("h2");
   title.innerText = p_title;
   container.appendChild(title);
 
-  for(var i=1;i<p_all_number+1;i++)
+  for(var i=0;i<p_all_number;i++)
   {
     var toggleButton = new ToggleButton()
     toggleButton.className = "btn";
-    toggleButton.innerText = i
+    if(i==0)
+    {
+        toggleButton.innerText = 1
+    }
+    else
+    {
+        toggleButton.innerText = i+1
+    }
     container.appendChild(toggleButton);
 
     toggleButton.addEventListener("click",function()
   {
     if(this.isToggled)
     {
-        progress.value +=1
+        progress.value += 1
+        
     }
     else
     {
         progress.value -=1
     }
-    
+    json_data[p_title].current_progress = progress.value
+    localStorage.setItem("data",JSON.stringify(json_data))
   })
   }
 
@@ -97,7 +97,6 @@
 
         function add_tv()
         {
-            // var item = {"":""}
             var side_bar = document.getElementById("side_bar")
             var tv_name = document.getElementById("tv_name").value
             var tv_number = document.getElementById("tv_number").value
@@ -109,6 +108,9 @@
             li.addEventListener("mousedown",show_info)
             li.append(small)
             side_bar.append(li)
+            data[tv_name] = {"title":tv_name,"current_progress":0,"all_progress":tv_number}
+            console.log(data)
+            localStorage.setItem("data",JSON.stringify(data))
         }
 
         function show_info(ev,p1)
@@ -116,9 +118,63 @@
             var tv_name = this.innerText.split("[")[0]
             // 总集数
             var all_number = this.innerText.split("/")[1].split("]")[0]
+            // console.log(all_number)
+            // cls
+            for(var i=0;i<tv_content.children.length;i++)
+            {
+                tv_content.children.item(i).remove()
+            }
             var tv_info = new TVInfoComponent(tv_name,all_number)
             tv_content.append(tv_info)
+            tv_info.set_progress(localStorage.getItem("data")[tv_name].current_progress)
             
+        }
+        function load()
+        {
+            var data = localStorage.getItem("data")
+            var data_json = JSON.parse(data)
+            if(!data){console.log("请保存数据");}
+            else
+            {
+                for (var key in data_json) 
+                {
+                if (data_json.hasOwnProperty(key))
+                {
+                    var obj = data_json[key];
+                    // console.log("Key: ", key);
+
+                    var li = document.createElement("li")
+                    li.innerText = key
+                    li.addEventListener("mousedown",show_info)
+                    var small = document.createElement("small")
+                    small.className = "progress"
+
+                    // 遍历内部对象
+                    for (var prop in obj) 
+                    {
+                        // console.log(prop);
+                        
+                        if(prop == "current_progress")
+                        {
+                            small.innerText = '[' + obj[prop] + '/' //+ value +']'
+                        }
+                        if(prop == "all_progress")
+                        {
+                            small.innerText+= obj[prop] + ']'
+                        }
+                        li.append(small)
+                        side_bar.append(li)
+                    }
+                }
+            }
+            }
+        }
+        load()
+        // 保存追剧数据
+        function save()
+        {
+            
+            localStorage.setItem("data",JSON.stringify(json))
         }
         </script>
     </body>

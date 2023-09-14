@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var data = {
+            "tv1":{
+                "title":"tv1",
+                "current_progress":5,
+                "all_progress":12
+            },
+            "tv2":{
+                "title":"tv2",
+                "current_progress":5,
+                "all_progress":12
+            }
+        }
+        localStorage.setItem("data",JSON.stringify(data))
+
+        var d = localStorage.getItem("data")
+        console.log(JSON.parse(d))
+    </script>
+</body>
+</html>
